@@ -19,7 +19,7 @@
         <!-- navbar start here  -->
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold" href="#">Mobilo<span class="text-danger">Pedia</span></a>
+                <a class="navbar-brand fw-bold fs-3" href="#">Mobilo<span class="text-danger">Pedia</span></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -93,11 +93,41 @@
             </div>
         </section>
         <!-- //show all button  -->
-    <div class="text-center d-none" id="showAll-div">
-        <button class="btn btn-danger my-3 px-4 py-1" id="showAll-btn">#Show All</button>
-    </div>
+        <div class="text-center d-none" id="showAll-div">
+            <button class="btn btn-danger my-3 px-4 py-1" id="showAll-btn">#Show All</button>
+        </div>
+
     </main>
+    <footer class="container">
+        <!-- --------------modal start ---------------- -->
+        <section>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+                            
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- -------------------modal end -------------------- -->
+    </footer>
     <!-- ---------js file-------- -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+        integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
+        crossorigin="anonymous"></script>
     <script src="js/phone.js"></script>
 </body>
 

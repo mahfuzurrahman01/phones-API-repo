@@ -1,18 +1,19 @@
-const loadPhones = async (name) => {
+const loadPhones = async (name,dataLimit) => {
   const url = `https://openapi.programming-hero.com/api/phones?search=${name}`
   const res = await fetch(url);
   const data = await res.json();
-  getPhone(data.data)
+  getPhone(data.data,dataLimit)
 }
 
-const getPhone = (phones) => {
+const getPhone = (phones,dataLimit) => {
   // display 10 phones only 
   const showAllDiv = document.getElementById('showAll-div');
-  if (phones.length > 10) {
+  if (dataLimit && phones.length > 10) {
     phones = phones.slice(0, 10);
     showAllDiv.classList.remove('d-none')
   }
   else{
+
     showAllDiv.classList.add('d-none')
   }
   // no phone found warning ! 
@@ -27,7 +28,6 @@ const getPhone = (phones) => {
   const parentDivCard = document.getElementById('card-items');
   parentDivCard.textContent = '';
   phones.forEach(phone => {
-    console.log(phone)
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('col');
 
@@ -38,6 +38,7 @@ const getPhone = (phones) => {
                     <div class="card-body">
                       <h5 class="card-title">${phone.phone_name}</h5>
                       <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <button class="btn btn-outline-danger py-1 px-4" onclick ="loadPhoneDetails('${phone.slug}')" data-bs-toggle="modal" data-bs-target="#exampleModal">#Details</button>
                     </div>
                   </div>
                
@@ -49,14 +50,27 @@ const getPhone = (phones) => {
 
 }
 
-document.getElementById('search-btn').addEventListener('click', function () {
+const proccessPhones = dataLimit =>{
   // loader start true
   toggleSpinner(true);
   const searchField = document.getElementById('search-field');
   const searchFieldText = searchField.value;
-  loadPhones(searchFieldText)
-  searchField.value = '';
+  loadPhones(searchFieldText,dataLimit)
+  
+}
+
+document.getElementById('search-btn').addEventListener('click', function () {
+  proccessPhones(10)
 })
+
+//enter key event 
+
+document.getElementById('search-field').addEventListener('keyup',function(event){
+  if(event.key === 'Enter'){
+    proccessPhones(10);
+  }
+})
+
 
 const toggleSpinner = isLoading => {
   const spinnerField = document.getElementById('spinner-field');
@@ -67,3 +81,31 @@ const toggleSpinner = isLoading => {
     spinnerField.classList.add('d-none')
   }
 }
+
+document.getElementById('showAll-btn').addEventListener('click',function(){
+   proccessPhones();
+   const searchField = document.getElementById('search-field');
+   searchField.value = '';
+}) 
+
+const loadPhoneDetails = async(id) =>{
+  const url = `https://openapi.programming-hero.com/api/phone/${id}`
+  const res = await fetch(url);
+  const data = await res.json();
+  displayPhoneDitails(data.data);
+}
+
+const displayPhoneDitails = (phone) =>{
+  const modalTitle = document.getElementById('exampleModalLabel');
+  modalTitle.innerText = ''
+  modalTitle.innerText = phone.name;
+  const modalBody =document.getElementById('modal-body');
+  modalBody.innerHTML = `
+  <p>Brand: <b> ${phone.brand ? phone.brand : 'Brand not found'}</b></p>
+  <p>Memory: <b> ${phone.mainFeatures ? phone.mainFeatures.memory : 'Memory not found'}</b></p>
+  <p>Chipset: <b> ${phone.mainFeatures ? phone.mainFeatures.chipSet : 'Chipset not found'}</b></p>
+  <p>Sensors: <b> ${phone.mainFeatures ? phone.mainFeatures.sensors : 'Sensor not found'}</b></p>
+  <p>Relased: <b> ${phone.releaseDate ? phone.releaseDate:'Release Date not found'}</b></p>
+  `
+}
+
